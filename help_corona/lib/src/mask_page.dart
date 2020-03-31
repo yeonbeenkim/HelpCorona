@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import 'home_page.dart';
 import 'hospital_page.dart';
 
@@ -15,14 +13,12 @@ class MaskPage extends StatefulWidget {
 }
 
 class _MaskPageState extends State<MaskPage> {  
-
   double width;
-
   String maskUrl = 'https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/';
   String storeUrl, salesUrl, storesByGeoUrl, storesByAddr;
 
   void setUrls() {
-    storeUrl = maskUrl + 'store/json?page=1';
+    storeUrl = maskUrl + 'stores/json?page=1';
     salesUrl = maskUrl + 'sales/json?page=1';
     storesByGeoUrl = maskUrl + 'storesByGeo/json';
     storesByAddr = maskUrl + 'storesByAddr/json';
@@ -35,16 +31,7 @@ class _MaskPageState extends State<MaskPage> {
     );
 
     List<dynamic> data = json.decode(utf8.decode(response.bodyBytes))['storeInfos'];
-    // data = data[];
-
-    print(data[0]['name']);
-
-    // Map datas = json.decode(data);
-
-    // Map data = jsonDecode(response.body);
-    // print(data);
-    // print(data['name']);
-
+    print(data[0]);
   }
 
   @override
@@ -52,7 +39,6 @@ class _MaskPageState extends State<MaskPage> {
     super.initState();
     setUrls();
     getData();
-
   }
 
 
