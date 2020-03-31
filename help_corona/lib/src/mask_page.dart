@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:help_corona/src/helper/user_location.dart';
 import 'home_page.dart';
 import 'hospital_page.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 class MaskPage extends StatefulWidget {
   MaskPage({Key key}) : super(key: key);
