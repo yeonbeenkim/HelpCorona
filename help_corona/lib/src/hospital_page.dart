@@ -36,11 +36,21 @@ class _HospitalPageState extends State<HospitalPage> {
           }
         }
       });
+      cardList.add(
+        new Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            "*표시 검사채취 가능한 곳     ",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      );
       for (var i = 0; i < filteredStrings.length; i++) {
         cardList.add(new Card(
             margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
             elevation: 20,
-            color: Colors.grey.shade300,
+            color: Colors.white,
+            // color: Colors.grey.shade300,
             child: Column(children: <Widget>[
               ListTile(
                 title: Text(
@@ -63,9 +73,9 @@ class _HospitalPageState extends State<HospitalPage> {
                     color: Colors.white,
                   ),
                   shape: CircleBorder(),
-                  elevation: 2,
+                  elevation: 5,
                   fillColor: Colors.green,
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(5),
                   onPressed: () => {
                     launch("tel://${filteredStrings[i][4]}"),
                   },
@@ -90,12 +100,12 @@ class _HospitalPageState extends State<HospitalPage> {
     //         item,
     //         style: TextStyle(color: Colors.white),
     //       ),
-    //     ),        
+    //     ),
     //     value: item,
     //   )
     // ),);
     cityMenuItems.clear();
-    // cityMenuItems[0] = new DropdownMenuItem(child: null);    
+    // cityMenuItems[0] = new DropdownMenuItem(child: null);
     for (int i = 0; i < cityList.length; i++) {
       cityMenuItems.add(DropdownMenuItem<String>(
         child: Center(
@@ -236,7 +246,9 @@ class _HospitalPageState extends State<HospitalPage> {
               padding: EdgeInsets.all(5),
               child: DropdownButton<String>(
                 items: cityMenuItems,
-                onChanged: disableSecondDropdown ? null : (_value) => clickCity(_value),
+                onChanged: disableSecondDropdown
+                    ? null
+                    : (_value) => clickCity(_value),
                 hint: Text(
                   "시/군/구",
                   style: TextStyle(color: Colors.white),
@@ -336,15 +348,15 @@ class _HospitalPageState extends State<HospitalPage> {
             //   color: Colors.orange,
             // ),
             _createBothDropdown(context),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-              "*표시 검사채취 가능한 곳    ",
-              style: TextStyle(
-                color: Colors.white
-              ),
-            ),
-            ),
+            // Align(
+            //   alignment: Alignment.centerRight,
+            //   child: Text(
+            //     "*표시 검사채취 가능한 곳    ",
+            //     style: TextStyle(
+            //     color: Colors.white
+            //   ),
+            // ),
+            // ),
             _viewHospital(context),
           ],
         ),

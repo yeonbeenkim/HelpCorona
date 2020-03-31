@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:help_corona/src/helper/user_location.dart';
 import 'home_page.dart';
 import 'hospital_page.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class MaskPage extends StatefulWidget {
   MaskPage({Key key}) : super(key: key);
@@ -16,6 +20,12 @@ class _MaskPageState extends State<MaskPage> {
   double width;
   String maskUrl = 'https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/';
   String storeUrl, salesUrl, storesByGeoUrl, storesByAddr;
+  
+  Completer<GoogleMapController> _controller = Completer();
+  static const LatLng _center = const LatLng(37.424707, 127.126923);
+  final Set<Marker> _markers = {};
+  LatLng _lastMapPosition = _center;
+  MapType _currentMapType = MapType.normal;
 
   void setUrls() {
     storeUrl = maskUrl + 'stores/json?page=1';
@@ -26,11 +36,14 @@ class _MaskPageState extends State<MaskPage> {
 
   void getData() async {
 
-    http.Response response = await http.get(storeUrl,
+    // http.Response response = await http.get(storeUrl,
+    //   headers: {'Content-Type': 'application/json'}
+    // );
+    http.Response response = await http.get(storesByAddr,
       headers: {'Content-Type': 'application/json'}
     );
 
-    List<dynamic> data = json.decode(utf8.decode(response.bodyBytes))['storeInfos'];
+    List<dynamic> data = json.decode(utf8.decode(response.bodyBytes))['stores'];
     print(data[0]);
   }
 
@@ -41,42 +54,60 @@ class _MaskPageState extends State<MaskPage> {
     getData();
   }
 
+  _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+  }
 
+  _onCameraMove(CameraPosition position) {
+    _lastMapPosition = position.target;
+  }
 
-  Widget _header(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+  _onMapTypeButtonPressed() {
+    setState(() {
+      _currentMapType = _currentMapType == MapType.normal
+      ? MapType.satellite
+      : MapType.normal;
+    });
+  }
 
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30),),
-      child: Container(
-        height: 90,
-        width: width,
-        decoration: BoxDecoration(color: Colors.teal[800]),
-        child: Container(
-          width: width,
-          // padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 30),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "마스크 구매처",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
+  _onAddMarkerButtonPressed() {
+    setState(() {
+      _markers.add(Marker(
+        markerId: MarkerId(_lastMapPosition.toString()),
+        position: _lastMapPosition,
+        infoWindow: InfoWindow(
+          title: 'This is a Title',
+          snippet: 'this is a snippet'
         ),
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+    });
+  }
+
+  static final CameraPosition _position1 = CameraPosition(
+    bearing: 192.833,
+    target: LatLng(45.531563, -122.677433),
+    tilt: 59.440,
+    zoom: 11.0,
+  );
+
+  Future<void> _goToPosition1() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_position1));
+  }
+
+
+  Widget button(Function function, IconData icon) {
+    return FloatingActionButton(
+      onPressed: function,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
+      backgroundColor: Colors.blue,
+      child: Icon(
+        icon,
+        size: 36,
       ),
     );
   }
-
 
   int _selectedIndex = 2;
 
@@ -101,7 +132,7 @@ class _MaskPageState extends State<MaskPage> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xff2d4059),
       appBar: AppBar(
@@ -142,13 +173,35 @@ class _MaskPageState extends State<MaskPage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            // _dailyEntireStatistics(context),
-          ],
+      body: Stack(
+      children: <Widget>[
+        GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+          mapType: _currentMapType,
+          markers: _markers,
+          onCameraMove: _onCameraMove,
         ),
-      ),
+        Padding(
+          padding: EdgeInsets.all(16),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Column(
+              children: <Widget>[
+                // button(_onMapTypeButtonPressed, Icons.map),
+                // SizedBox(height: 16,),
+                // button(_onAddMarkerButtonPressed, Icons.add_location),
+                // SizedBox(height: 16,),
+                // button(_goToPosition1, Icons.location_searching),
+              ],
+            ),
+          ),
+        ),
+      ],
+    )
     );
   }
 }
