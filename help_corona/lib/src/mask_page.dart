@@ -7,6 +7,8 @@ import 'hospital_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'package:geolocator/geolocator.dart';
+
 class MaskPage extends StatefulWidget {
   MaskPage({Key key}) : super(key: key);
 
@@ -21,14 +23,17 @@ class _MaskPageState extends State<MaskPage> {
   
   Completer<GoogleMapController> _controller = Completer();
   static const LatLng _center = const LatLng(37.424707, 127.126923);
-  final Set<Marker> _markers = {};
+  final Set<Marker> _markers2 = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
+
+  double myLatitude, myLongitude;
+  final Map<String, Marker> _markers = {};
 
   void setUrls() {
     storeUrl = maskUrl + 'stores/json?page=1';
     salesUrl = maskUrl + 'sales/json?page=1';
-    storesByGeoUrl = maskUrl + 'storesByGeo/json';
+    storesByGeoUrl = maskUrl + 'storesByGeo/json?';
     storesByAddr = maskUrl + 'storesByAddr/json';
   }
 
@@ -52,6 +57,21 @@ class _MaskPageState extends State<MaskPage> {
     getData();
   }
 
+  void _getLocation() async {
+    var currentLocation = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+
+    setState(() {
+      _markers.clear();
+      final marker = Marker(
+          markerId: MarkerId("curr_loc"),
+          position: LatLng(currentLocation.latitude, currentLocation.longitude),
+          infoWindow: InfoWindow(title: 'Your Location'),
+      );
+      _markers["Current Location"] = marker;
+    });
+  }
+
   _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
@@ -68,19 +88,19 @@ class _MaskPageState extends State<MaskPage> {
     });
   }
 
-  _onAddMarkerButtonPressed() {
-    setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId(_lastMapPosition.toString()),
-        position: _lastMapPosition,
-        infoWindow: InfoWindow(
-          title: 'This is a Title',
-          snippet: 'this is a snippet'
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-      ));
-    });
-  }
+  // _onAddMarkerButtonPressed() {
+  //   setState(() {
+  //     _markers.add(Marker(
+  //       markerId: MarkerId(_lastMapPosition.toString()),
+  //       position: _lastMapPosition,
+  //       infoWindow: InfoWindow(
+  //         title: 'This is a Title',
+  //         snippet: 'this is a snippet'
+  //       ),
+  //       icon: BitmapDescriptor.defaultMarker,
+  //     ));
+  //   });
+  // }
 
   static final CameraPosition _position1 = CameraPosition(
     bearing: 192.833,
@@ -174,30 +194,45 @@ class _MaskPageState extends State<MaskPage> {
       body: Stack(
       children: <Widget>[
         GoogleMap(
-          onMapCreated: _onMapCreated,
+          mapType: MapType.normal,
           initialCameraPosition: CameraPosition(
             target: _center,
-            zoom: 11.0,
+            zoom: 11,
           ),
-          mapType: _currentMapType,
-          markers: _markers,
-          onCameraMove: _onCameraMove,
+          markers: _markers.values.toSet(),
         ),
-        Padding(
-          padding: EdgeInsets.all(16),
-          child: Align(
-            alignment: Alignment.topRight,
-            child: Column(
-              children: <Widget>[
-                // button(_onMapTypeButtonPressed, Icons.map),
-                // SizedBox(height: 16,),
-                // button(_onAddMarkerButtonPressed, Icons.add_location),
-                // SizedBox(height: 16,),
-                // button(_goToPosition1, Icons.location_searching),
-              ],
-            ),
-          ),
+        FloatingActionButton(
+          onPressed: _getLocation,
+          tooltip: 'Get Location',
+          child: Icon(Icons.flag),
         ),
+        
+        // GoogleMap(
+        //   onMapCreated: _onMapCreated,
+        //   initialCameraPosition: CameraPosition(
+        //     target: _center,
+        //     zoom: 11.0,
+        //   ),
+        //   mapType: _currentMapType,
+        //   markers: _markers2,
+        //   onCameraMove: _onCameraMove,
+        // ),
+        
+        // Padding(
+        //   padding: EdgeInsets.all(16),
+        //   child: Align(
+        //     alignment: Alignment.topRight,
+        //     child: Column(
+        //       children: <Widget>[
+        //         // button(_onMapTypeButtonPressed, Icons.map),
+        //         // SizedBox(height: 16,),
+        //         // button(_onAddMarkerButtonPressed, Icons.add_location),
+        //         // SizedBox(height: 16,),
+        //         // button(_goToPosition1, Icons.location_searching),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ],
     )
     );
