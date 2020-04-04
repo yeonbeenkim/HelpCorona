@@ -49,13 +49,17 @@ class _HospitalPageState extends State<HospitalPage> {
         cardList.add(new Card(
             margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
             elevation: 20,
-            color: Colors.white,
-            // color: Colors.grey.shade300,
+            // color: Color(0xffffd460),
+            // color: Colors.white,
+            color: Colors.grey.shade200,
             child: Column(children: <Widget>[
               ListTile(
                 title: Text(
                   filteredStrings[i][3].toString(),
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(
+                    color: Colors.black,
+                    // fontWeight: FontWeight.w600
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 // trailing: IconButton(
@@ -75,7 +79,7 @@ class _HospitalPageState extends State<HospitalPage> {
                   shape: CircleBorder(),
                   elevation: 5,
                   fillColor: Colors.green,
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(8),
                   onPressed: () => {
                     launch("tel://${filteredStrings[i][4]}"),
                   },
