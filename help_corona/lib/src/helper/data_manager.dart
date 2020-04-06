@@ -19,21 +19,4 @@ class DataManager {
   static List<dynamic> kyeongbukHospitalData;
   static List<dynamic> kyeongnamHospitalData;
   static List<dynamic> jejuHospitalData;
-  // static List<dynamic> seoulHospitalData = new List<dynamic>();
-  // static List<dynamic> busanHospitalData = new List<dynamic>();
-  // static List<dynamic> daeguHospitalData = new List<dynamic>();
-  // static List<dynamic> incheonHospitalData = new List<dynamic>();
-  // static List<dynamic> gwangjuHospitalData = new List<dynamic>();
-  // static List<dynamic> daejeonHospitalData = new List<dynamic>();
-  // static List<dynamic> ulsanHospitalData = new List<dynamic>();
-  // static List<dynamic> sejongHospitalData = new List<dynamic>();
-  // static List<dynamic> gyeonggiHospitalData = new List<dynamic>();
-  // static List<dynamic> gangwonHospitalData = new List<dynamic>();
-  // static List<dynamic> chungbukHospitalData = new List<dynamic>();
-  // static List<dynamic> chungnamHospitalData = new List<dynamic>();
-  // static List<dynamic> jeonbukHospitalData = new List<dynamic>();
-  // static List<dynamic> jeonnamHospitalData = new List<dynamic>();
-  // static List<dynamic> kyeongbukHospitalData = new List<dynamic>();
-  // static List<dynamic> kyeongnamHospitalData = new List<dynamic>();
-  // static List<dynamic> jejuHospitalData = new List<dynamic>();
 }

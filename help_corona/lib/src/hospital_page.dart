@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:help_corona/src/helper/korea_location.dart';
-
 import 'home_page.dart';
 import 'mask_page.dart';
 import 'package:help_corona/src/helper/data_manager.dart';
@@ -62,15 +61,6 @@ class _HospitalPageState extends State<HospitalPage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                // trailing: IconButton(
-                //   icon: Icon(
-                //     Icons.phone,
-                //     color: Color(0xfff07b3f),
-                //   ),
-                //   onPressed: () => {
-                //     launch("tel://${filteredStrings[i][4]}"),
-                //   },
-                // ),
                 trailing: RawMaterialButton(
                   child: Icon(
                     Icons.phone,
@@ -96,20 +86,7 @@ class _HospitalPageState extends State<HospitalPage> {
   }
 
   void _createSecondDropdownMenu(stateName) {
-    // cityMenuItems = [];
-    // stateName.forEach((item) => cityMenuItems.add(
-    //   DropdownMenuItem<String> (
-    //     child: Center(
-    //       child: Text(
-    //         item,
-    //         style: TextStyle(color: Colors.white),
-    //       ),
-    //     ),
-    //     value: item,
-    //   )
-    // ),);
     cityMenuItems.clear();
-    // cityMenuItems[0] = new DropdownMenuItem(child: null);
     for (int i = 0; i < cityList.length; i++) {
       cityMenuItems.add(DropdownMenuItem<String>(
         child: Center(
@@ -348,19 +325,7 @@ class _HospitalPageState extends State<HospitalPage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            // Divider(
-            //   color: Colors.orange,
-            // ),
             _createBothDropdown(context),
-            // Align(
-            //   alignment: Alignment.centerRight,
-            //   child: Text(
-            //     "*표시 검사채취 가능한 곳    ",
-            //     style: TextStyle(
-            //     color: Colors.white
-            //   ),
-            // ),
-            // ),
             _viewHospital(context),
           ],
         ),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:help_corona/src/helper/data_manager.dart';
-// import 'package:help_corona/src/home_page.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -23,7 +22,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     List<List<dynamic>> csvTable =
         CsvToListConverter(csvSettingsDetector: d).convert(myData.body);
     data = csvTable;
-    // print(data);
 
     switch (cases) {
       case 0:
@@ -31,18 +29,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
         for (int i = 0; i < data.length; i++) {
           DataManager.allDates[i] = data[i];
         }
-        // print(DataManager.allDates[4]);
         break;
       case 1:
         DataManager.dailyData = new List(data.length);
         for (int i = 0; i < data.length; i++) {
           DataManager.dailyData[i] = data[i];
         }
-        // print(DataManager.dailyData[4]);
         break;
       case 2:
         DataManager.hospitalData = new List(data.length);
-        // DataManager.seoulHospitalData = new List<dynamic>();
         DataManager.seoulHospitalData = new List<dynamic>();
         DataManager.seoulHospitalData = new List<dynamic>();
         DataManager.busanHospitalData = new List<dynamic>();
@@ -63,9 +58,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         DataManager.jejuHospitalData = new List<dynamic>();
         for (int i = 0; i < data.length; i++) {
           DataManager.hospitalData[i] = data[i];
-          // if (data[i][1] == "서울") {
-          //   DataManager.seoulHospitalData.add(data[i]);
-          // }
           switch (data[i][1]) {
             case '서울':
               DataManager.seoulHospitalData.add(data[i]);
@@ -120,18 +112,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
               break;
           }
         }
-        // print(DataManager.hospitalData[4]);
         Navigator.pushReplacementNamed(context, '/home');
         break;
     }
-
-    // int a = 0;
-    // switch(DataManager.hospitalData[a][1]) {
-    //   case "서울":
-    //   DataManager.seoulHospitalData[a];
-    //   break;
-
-    // }
   }
 
   @override

@@ -66,7 +66,6 @@ class _MaskPageState extends State<MaskPage> {
           updateMarkerAndCircle(newLocalData, imageData);
         }
       });
-      // makeStoresMarker();
     }
     on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
@@ -82,27 +81,6 @@ class _MaskPageState extends State<MaskPage> {
     getData(urlMaked);
 
     this.setState(() {
-      // _markers.add(Marker(
-      //   markerId: MarkerId("home"),
-      //   position: latLng,
-      //   rotation: newLocalData.heading,
-      //   draggable: false,
-      //   zIndex: 2,
-      //   flat: true,
-      //   anchor: Offset(0.5, 0.5),
-      //   icon: BitmapDescriptor.fromBytes(imageData),
-      // )
-      // );
-      // marker = Marker(
-      //   markerId: MarkerId("home"),
-      //   position: latLng,
-      //   rotation: newLocalData.heading,
-      //   draggable: false,
-      //   zIndex: 2,
-      //   flat: true,
-      //   anchor: Offset(0.5, 0.5),
-      //   icon: BitmapDescriptor.fromBytes(imageData)
-      // );
       circle = Circle(
         circleId: CircleId("car"),
         radius: newLocalData.accuracy + 30,
@@ -154,127 +132,17 @@ class _MaskPageState extends State<MaskPage> {
           position: LatLng(item.latitude, item.longitude),
           infoWindow: InfoWindow(
             title: item.name,
+            // snippet: item.makeStoreStateString()
             snippet: item.remainStat
           ),
+          // infoWindow: ,
           icon: BitmapDescriptor.defaultMarkerWithHue(item.hue)
-          // position: LatLng(),
         )
         );
         }
         markerId++;
       });
     });
-    // setState(() {
-    //   _markers.add(Marker(
-    //     markerId: MarkerId("aaaaaaaaaaa"),
-    //     position: storePosition,
-    //     infoWindow: InfoWindow(
-    //       title: "모란시민약국",
-    //       snippet: "재고없음"
-    //     ),
-    //     icon: BitmapDescriptor.defaultMarker,
-    //   )
-    //   );
-    // });
-  }
-  // // _onAddMarkerButtonPressed() {
-  // //   setState(() {
-  // //     _markers.add(Marker(
-  // //       markerId: MarkerId(_lastMapPosition.toString()),
-  // //       position: _lastMapPosition,
-  // //       infoWindow: InfoWindow(
-  // //         title: 'This is a Title',
-  // //         snippet: 'this is a snippet'
-  // //       ),
-  // //       icon: BitmapDescriptor.defaultMarker,
-  // //     ));
-  // //   });
-  // // }
-  
-  // Completer<GoogleMapController> _controller = Completer();
-  // static const LatLng _center = const LatLng(37.424707, 127.126923);
-  // final Set<Marker> _markers2 = {};
-  // LatLng _lastMapPosition = _center;
-  // MapType _currentMapType = MapType.normal;
-
-  // double myLatitude, myLongitude;
-  // final Map<String, Marker> _markers = {};  
-
-  // // void _getLocation() async {
-  // //   var currentLocation = await Geolocator()
-  // //       .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
-  // //   setState(() {
-  // //     _markers.clear();
-  // //     final marker = Marker(
-  // //         markerId: MarkerId("curr_loc"),
-  // //         position: LatLng(currentLocation.latitude, currentLocation.longitude),
-  // //         infoWindow: InfoWindow(title: 'Your Location'),
-  // //     );
-  // //     _markers["Current Location"] = marker;
-  // //   });
-  // // }
-
-  // _onMapCreated(GoogleMapController controller) {
-  //   _controller.complete(controller);
-  // }
-
-  // _onCameraMove(CameraPosition position) {
-  //   _lastMapPosition = position.target;
-  // }
-
-  // _onMapTypeButtonPressed() {
-  //   setState(() {
-  //     _currentMapType = _currentMapType == MapType.normal
-  //     ? MapType.satellite
-  //     : MapType.normal;
-  //   });
-  // }
-
-  // // _onAddMarkerButtonPressed() {
-  // //   setState(() {
-  // //     _markers.add(Marker(
-  // //       markerId: MarkerId(_lastMapPosition.toString()),
-  // //       position: _lastMapPosition,
-  // //       infoWindow: InfoWindow(
-  // //         title: 'This is a Title',
-  // //         snippet: 'this is a snippet'
-  // //       ),
-  // //       icon: BitmapDescriptor.defaultMarker,
-  // //     ));
-  // //   });
-  // // }
-
-  // static final CameraPosition _position1 = CameraPosition(
-  //   bearing: 192.833,
-  //   target: LatLng(45.531563, -122.677433),
-  //   tilt: 59.440,
-  //   zoom: 11.0,
-  // );
-
-  // Future<void> _goToPosition1() async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(_position1));
-  // }
-
-
-  Widget button(Function function, IconData icon) {
-    return FloatingActionButton(
-      onPressed: function,
-      materialTapTargetSize: MaterialTapTargetSize.padded,
-      backgroundColor: Colors.blue,
-      child: Icon(
-        icon,
-        size: 36,
-      ),
-    );
-  }  
-
-  void dispose() {
-    if(_locationSubscription != null) {
-      _locationSubscription.cancel();
-    }
-    super.dispose();
   }
 
   int _selectedIndex = 2;
@@ -303,19 +171,6 @@ class _MaskPageState extends State<MaskPage> {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xff2d4059),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xff2d4059),
-      //   elevation: 0,
-      //   centerTitle: true,
-      //   title: Text('마스크 구매'),
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios),
-      //     onPressed: () => {
-      //       Navigator.pushReplacement(context,
-      //       MaterialPageRoute(builder: (context) => HomePage()))
-      //     },
-      //   ),
-      // ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(
@@ -326,13 +181,10 @@ class _MaskPageState extends State<MaskPage> {
       child: BottomNavigationBar(
         // elevation: 7,
         backgroundColor: Colors.white,
-        // backgroundColor: Color(0xff2d4059),
         showSelectedLabels: true,
         showUnselectedLabels: true,
         selectedItemColor: Colors.blue[700],
-        // selectedItemColor: Color(0xffffd460),
         unselectedItemColor: Colors.grey[700],
-        // unselectedItemColor: Colors.grey.shade400,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
@@ -351,42 +203,6 @@ class _MaskPageState extends State<MaskPage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   elevation: 7,
-      //   backgroundColor: Colors.white,
-      //   // backgroundColor: Color(0xff2d4059),
-      //   showSelectedLabels: true,
-      //   showUnselectedLabels: true,
-      //   selectedItemColor: Colors.blue[700],
-      //   // selectedItemColor: Color(0xffffd460),
-      //   unselectedItemColor: Colors.grey[700],
-      //   // unselectedItemColor: Colors.grey.shade400,
-      //   type: BottomNavigationBarType.fixed,
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       title: Text('홈'),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.local_hospital),
-      //       title: Text('선별 진료소'),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.add_shopping_cart),
-      //       title: Text('마스크 구매'),
-      //     ),
-      //   ],
-      //   currentIndex: _selectedIndex,
-      //   onTap: _onItemTapped,
-      // ),
-      // floatingActionButton: FloatingActionButton (
-      //     child: Icon(Icons.location_searching),
-      //     onPressed: () {
-      //       isMapLocated = true;
-      //       getCurrentLocation();
-      //     },
-      //   ),
-      // floatingActionButton: button(makeStoresMarker(), Icons.add_location),
       floatingActionButton: FloatingActionButton(
         elevation: 7,
         backgroundColor: Colors.white,
@@ -402,69 +218,16 @@ class _MaskPageState extends State<MaskPage> {
       ),
       body: Stack(
       children: <Widget>[
-        // Padding(
-        //   padding: EdgeInsets.all(16),
-        //   child: Align(
-        //     alignment: Alignment.topRight,
-        //     child: Column(
-        //       children: <Widget>[
-        //         button(makeStoresMarker, Icons.add_location),
-        //       ],
-        //     ),
-        //   ),
-        // ),
         GoogleMap(
-          // myLocationButtonEnabled: true,
           myLocationEnabled: true,
           mapType: MapType.normal,
           initialCameraPosition: initialLocation,
           markers: _markers,
-          // markers: Set.of((marker != null) ? [marker] : []),
           circles: Set.of((circle != null) ? [circle] : []),
           onMapCreated: (GoogleMapController controller) {
             _controller = controller;
           },
         ),
-        // GoogleMap(
-        //   mapType: MapType.normal,
-        //   initialCameraPosition: CameraPosition(
-        //     target: _center,
-        //     zoom: 11,
-        //   ),
-        //   markers: _markers.values.toSet(),
-        // ),
-        // FloatingActionButton(
-        //   onPressed: _getLocation,
-        //   tooltip: 'Get Location',
-        //   child: Icon(Icons.flag),
-        // ),
-        
-        // GoogleMap(
-        //   onMapCreated: _onMapCreated,
-        //   initialCameraPosition: CameraPosition(
-        //     target: _center,
-        //     zoom: 11.0,
-        //   ),
-        //   mapType: _currentMapType,
-        //   markers: _markers2,
-        //   onCameraMove: _onCameraMove,
-        // ),
-        
-        // Padding(
-        //   padding: EdgeInsets.all(16),
-        //   child: Align(
-        //     alignment: Alignment.topRight,
-        //     child: Column(
-        //       children: <Widget>[
-        //         // button(_onMapTypeButtonPressed, Icons.map),
-        //         // SizedBox(height: 16,),
-        //         // button(_onAddMarkerButtonPressed, Icons.add_location),
-        //         // SizedBox(height: 16,),
-        //         // button(_goToPosition1, Icons.location_searching),
-        //       ],
-        //     ),
-        //   ),
-        // ),
       ],
     )
     );
@@ -476,6 +239,8 @@ class StoresInfo {
   double latitude, longitude;
   String name;
   String remain;
+  String stock_at;
+  String created_at;
 
   //색상
   double hue = 0;
@@ -483,14 +248,15 @@ class StoresInfo {
   String remainStat = '';
 
   StoresInfo(
+    this.name,
     this.addr,
     this.latitude,
     this.longitude,
-    this.name,
-    this.remain
+    this.stock_at,    
+    this.remain,
+    this.created_at
   ) {
     setHueAndStat();
-    print(this);
   }
   
   setHueAndStat(){
@@ -512,21 +278,27 @@ class StoresInfo {
     }
   }
 
-  // StoresInfo(this.addr, this.latitude, this.longitude, this.name, this.remain);
-
   factory StoresInfo.fromJson(dynamic json) {
     return StoresInfo(
+      json['name'] as String,
       json['addr'] as String,
       json['lat'] as double,
       json['lng'] as double,
-      json['name'] as String,
-      json['remain_stat'] as String
+      json['stock_at'] as String,     
+      json['remain_stat'] as String,
+      json['created_at'] as String
     );
+  }
+
+  String makeStoreStateString() {
+    String state = this.remainStat + '\n입고시간: ' + this.stock_at;
+    // String state = this.remainStat + '\n입고시간: ' + this.stock_at + '\n데이터 생성' + this.created_at;
+    return state;
   }
 
   @override
   String toString() {
-    return '{ ${this.name}, ${this.addr}, ${this.latitude}, ${this.longitude}, ${this.hue}, ${this.remainStat}}';
+    return '{ ${this.name}, ${this.addr}, ${this.latitude}, ${this.longitude}, ${this.hue}, ${this.stock_at}, ${this.remainStat}}';
   }
 
 }
