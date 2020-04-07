@@ -111,6 +111,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
               DataManager.jejuHospitalData.add(data[i]);
               break;
           }
+        }        
+        break;
+      case 3:
+        DataManager.globalDatas = new List(data.length);
+        for (int i = 0; i < data.length; i++) {
+          DataManager.globalDatas[i] = data[i];
         }
         Navigator.pushReplacementNamed(context, '/home');
         break;
@@ -126,6 +132,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
         "https://raw.githubusercontent.com/yeonbeenkim/HelpCorona/master/data/corona_statistics_csv.csv");
     getData(2,
         "https://raw.githubusercontent.com/yeonbeenkim/HelpCorona/master/data/corona_hospital_csv.csv");
+    getData(3, 
+        "https://raw.githubusercontent.com/yeonbeenkim/HelpCorona/master/data/corona_global_statistics_csv.csv");
   }
 
   @override

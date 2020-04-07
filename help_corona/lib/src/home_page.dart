@@ -9,6 +9,9 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:math';
 import 'hospital_page.dart';
 
+import 'package:help_corona/src/helper/local_statistics_page.dart' as localPage;
+import 'package:help_corona/src/helper/global_statistics_page.dart' as globalPage;
+
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
@@ -16,7 +19,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
   double width;
   int _selectedIndex = 0;
 
@@ -180,6 +183,17 @@ class _HomePageState extends State<HomePage> {
     _seriesLineData = List<charts.Series<Sales, int>>();
     _seriesLineDateData = List<charts.Series<LinearSales, int>>();
     _generateData();
+
+    controller = new TabController(
+      vsync: this,
+      length: 2
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   void _onItemTapped(int index) {
@@ -429,30 +443,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  TabController controller;
+
 
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xff2d4059),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xff2d4059),
-      //   elevation: 0,
-      //   centerTitle: true,
-      //   title: Text('코로나 현황'),
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios),
-      //     onPressed: () => {},
-      //   ),
-      // ),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
-        backgroundColor: Color(0xff2d4059),
+      // backgroundColor: Color(0xff2d4059),
+      // backgroundColor: Color(0xff2d4059),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [BoxShadow(
+            color: Colors.black54,
+            blurRadius: 10
+          )]
+        ),      
+      child: BottomNavigationBar(
+        backgroundColor: Colors.white,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        selectedItemColor: Color(0xffffd460),
-        unselectedItemColor: Colors.grey.shade400,
+        selectedItemColor: Colors.blue[700],
+        unselectedItemColor: Colors.grey[700],
         type: BottomNavigationBarType.fixed,
+        // elevation: 0,
+        // backgroundColor: Color(0xff2d4059),
+        // showSelectedLabels: true,
+        // showUnselectedLabels: true,
+        // selectedItemColor: Color(0xffffd460),
+        // unselectedItemColor: Colors.grey.shade400,
+        // type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -470,16 +490,86 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-      body:
+      ),
+      appBar: AppBar(
+        backgroundColor: Colors.blue[700],
+        // backgroundColor: Color(0xff2d4059),
+        elevation: 0,
+        centerTitle: true,
+        title: Text('코로나 통계'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => {},
+        ),
+        bottom: new TabBar(
+          indicatorColor: Colors.blue[300],
+          indicatorWeight: 5,
+          controller: controller,
+          tabs: <Widget>[
+            new Tab(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.location_on),
+                  Text(
+                    "   국내 현황",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            new Tab(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.language),
+                  Text(
+                    "   전세계",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16
+                    ),
+                  ),
+                ],
+              ),
+              // text: "글로벌",
+              // icon: new Icon(Icons.language),
+            )
+          ],
+        ),
+      ),
+      body: new TabBarView(
+        controller: controller,
+        children: <Widget>[
+          new localPage.LocalStatisticsPage(),
+          new globalPage.GlobalStatisticsPage(),
+        ],
+      ),
       // body: SingleChildScrollView(
       //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     crossAxisAlignment: CrossAxisAlignment.start,
       //     children: <Widget>[
-            _showWebView(context),
-            // _koreaDailyStatistics(context),
-            // _dailyEntireStatistics(context),
-            // _lineChartsView(context),
-            // _barChartsView(context),
-            // _simpleLineChartsView(context),     
+      //       Container(
+      //         margin: EdgeInsets.all(20),
+      //         child: Text(
+      //           "국내 현황",
+      //           style: TextStyle(
+      //             fontSize: 20,
+      //             fontWeight: FontWeight.bold,
+      //             color: Colors.white
+      //           ),
+      //         ),
+      //       ),
+      //       // _showWebView(context),
+      //       // _koreaDailyStatistics(context),
+      //       // _dailyEntireStatistics(context),
+      //       _lineChartsView(context),
+      //       // _barChartsView(context),
+      //       // _simpleLineChartsView(context),     
       //     ],
       //   ),
       // ),

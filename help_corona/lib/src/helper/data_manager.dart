@@ -1,6 +1,8 @@
 class DataManager {
   static List<dynamic> allDates;
   static List<dynamic> dailyData;
+  static List<dynamic> globalDatas;
+
   static List<dynamic> hospitalData;
   static List<dynamic> seoulHospitalData;
   static List<dynamic> busanHospitalData;

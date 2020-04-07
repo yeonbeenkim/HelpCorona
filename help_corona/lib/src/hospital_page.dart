@@ -40,24 +40,25 @@ class _HospitalPageState extends State<HospitalPage> {
           alignment: Alignment.centerRight,
           child: Text(
             "*표시 검사채취 가능한 곳     ",
-            style: TextStyle(color: Colors.white),
+            // style: TextStyle(color: Colors.white),
           ),
         ),
       );
       for (var i = 0; i < filteredStrings.length; i++) {
         cardList.add(new Card(
-            margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-            elevation: 20,
+            margin: EdgeInsets.fromLTRB(40, 5, 40, 5),
+            elevation: 5,
             // color: Color(0xffffd460),
             // color: Colors.white,
-            color: Colors.grey.shade200,
+            color: Colors.white,
+            // color: Colors.grey.shade200,
             child: Column(children: <Widget>[
               ListTile(
                 title: Text(
                   filteredStrings[i][3].toString(),
                   style: TextStyle(
                     color: Colors.black,
-                    // fontWeight: FontWeight.w600
+                    // fontWeight: FontWeight.bold
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -92,7 +93,7 @@ class _HospitalPageState extends State<HospitalPage> {
         child: Center(
           child: Text(
             cityList[i],
-            style: TextStyle(color: Colors.white),
+            // style: TextStyle(color: Colors.white),
           ),
         ),
         value: cityList[i],
@@ -193,7 +194,7 @@ class _HospitalPageState extends State<HospitalPage> {
     return new Center(
       child: new Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Color(0xff2d4059),
+          // canvasColor: Color(0xff2d4059),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -209,7 +210,7 @@ class _HospitalPageState extends State<HospitalPage> {
                                 child: Text(
                                   _value,
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    // color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -218,7 +219,7 @@ class _HospitalPageState extends State<HospitalPage> {
                 onChanged: (_value) => _clickState(_value),
                 hint: Text(
                   "시/도",
-                  style: TextStyle(color: Colors.white),
+                  // style: TextStyle(color: Colors.white),
                 ),
                 value: selectedState,
               ),
@@ -232,11 +233,11 @@ class _HospitalPageState extends State<HospitalPage> {
                     : (_value) => clickCity(_value),
                 hint: Text(
                   "시/군/구",
-                  style: TextStyle(color: Colors.white),
+                  // style: TextStyle(color: Colors.white),
                 ),
                 disabledHint: Text(
                   "시/도를 선택하세요.",
-                  style: TextStyle(color: Colors.white),
+                  // style: TextStyle(color: Colors.white),
                 ),
                 value: selectedCity,
               ),
@@ -249,7 +250,8 @@ class _HospitalPageState extends State<HospitalPage> {
 
   Widget _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Color(0xff2d4059),
+      backgroundColor: Colors.blue[700],
+      // backgroundColor: Color(0xff2d4059),
       elevation: 0,
       centerTitle: true,
       title: Text('선별 진료소 목록'),
@@ -319,9 +321,42 @@ class _HospitalPageState extends State<HospitalPage> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xff2d4059),
+      // backgroundColor: Color(0xff2d4059),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [BoxShadow(
+            color: Colors.black54,
+            blurRadius: 10
+          )]
+        ),
+      child: BottomNavigationBar(
+        // elevation: 7,
+        backgroundColor: Colors.white,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedItemColor: Colors.blue[700],
+        unselectedItemColor: Colors.grey[700],
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('홈'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_hospital),
+            title: Text('선별 진료소'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_shopping_cart),
+            title: Text('마스크 구매'),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),),
+      // backgroundColor: Color(0xff2d4059),
       appBar: _appBar(context),
-      bottomNavigationBar: _buttomNavigation(context),
+      // bottomNavigationBar: _buttomNavigation(context),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
