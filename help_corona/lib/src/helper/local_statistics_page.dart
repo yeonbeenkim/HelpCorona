@@ -291,7 +291,10 @@ class _LocalStatisticsPageState extends State<LocalStatisticsPage> {
                   Container(
                     alignment: Alignment.center,
                     child: Text(
-                      statistics.confirmedCase.toString(),
+                      statistics.confirmedCase.toString().replaceAllMapped(
+                        new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                        (Match m) => '${m[1]},'),
+                      // statistics.confirmedCase.toString(),
                       style: TextStyle(fontSize: 15),
                     ),
                   ),
@@ -300,7 +303,10 @@ class _LocalStatisticsPageState extends State<LocalStatisticsPage> {
                   Container(
                     alignment: Alignment.center,
                     child: Text(
-                      statistics.newConfirmedCase.toString(),
+                      statistics.newConfirmedCase.toString().replaceAllMapped(
+                        new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                        (Match m) => '${m[1]},'),
+                      // statistics.newConfirmedCase.toString(),
                       style: TextStyle(fontSize: 15),
                     ),
                   ),
@@ -309,7 +315,10 @@ class _LocalStatisticsPageState extends State<LocalStatisticsPage> {
                   Container(
                     alignment: Alignment.center,
                     child: Text(
-                      statistics.death.toString(),
+                      statistics.death.toString().replaceAllMapped(
+                        new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                        (Match m) => '${m[1]},'),
+                      // statistics.death.toString(),
                       style: TextStyle(fontSize: 15),
                     ),
                   ),

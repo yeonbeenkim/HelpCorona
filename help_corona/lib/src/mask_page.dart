@@ -30,7 +30,10 @@ class _MaskPageState extends State<MaskPage> {
   @override
   void initState() {
     super.initState();
+    // getCurrentLocation();
+    isMapLocated = true;
     getCurrentLocation();
+    makeStoresMarker();
   } 
 
   String makeUrlFromLatlng(LatLng latlng) {

@@ -115,9 +115,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
         break;
       case 3:
         DataManager.globalDatas = new List(data.length);
+        // int first = 0;
         for (int i = 0; i < data.length; i++) {
+          // if(first > 0) {
           DataManager.globalDatas[i] = data[i];
-          print(data[i]);
+        //   print(data[i]);
+        //   }
+        //   first++;
         }
         Navigator.pushReplacementNamed(context, '/home');
         break;

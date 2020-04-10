@@ -12,6 +12,8 @@ import 'hospital_page.dart';
 import 'package:help_corona/src/helper/local_statistics_page.dart' as localPage;
 import 'package:help_corona/src/helper/global_statistics_page.dart' as globalPage;
 
+import 'package:help_corona/src/helper/data_manager.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
@@ -174,15 +176,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
+  
   @override
   void initState() {
     super.initState();
+    // getData();
 
-    _seriesData = List<charts.Series<Pollution, String>>();
-    _seriesPieData = List<charts.Series<Task, String>>();
-    _seriesLineData = List<charts.Series<Sales, int>>();
-    _seriesLineDateData = List<charts.Series<LinearSales, int>>();
-    _generateData();
+    // _seriesData = List<charts.Series<Pollution, String>>();
+    // _seriesPieData = List<charts.Series<Task, String>>();
+    // _seriesLineData = List<charts.Series<Sales, int>>();
+    // _seriesLineDateData = List<charts.Series<LinearSales, int>>();
+    // _generateData();
 
     controller = new TabController(
       vsync: this,
@@ -606,3 +610,4 @@ class LinearSales {
 
   LinearSales(this.year, this.sales);
 }
+
